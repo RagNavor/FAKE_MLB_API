@@ -1,3 +1,4 @@
+import datetime
 from pydantic import BaseModel
 
 class CreatePlayer(BaseModel):
@@ -9,7 +10,6 @@ class CreatePlayer(BaseModel):
     ht: str
     wt: int
     birth_place: str
-    status: bool
     team_id: int
     
 class UpdatePlayer(BaseModel):
@@ -21,5 +21,5 @@ class UpdatePlayer(BaseModel):
     ht: str
     wt: int
     birth_place: str
-    status: bool
     team_id: int
+    updated_at: None
