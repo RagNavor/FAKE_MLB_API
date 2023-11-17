@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer,VARCHAR,DateTime,ForeignKey,Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
-class Teams(Base):
+class Team(Base):
     __tablename__ = "teams"
     id = Column(Integer, primary_key= True)
     name = Column(VARCHAR(45))
