@@ -2,7 +2,7 @@ from config.database import Base
 from sqlalchemy import Column, Integer,Boolean,VARCHAR, BIGINT, DateTime,ForeignKey, true
 from sqlalchemy.orm import relationship
 from datetime import datetime
-
+from .team import Team
 
 class Player(Base):
     __tablename__ = "players"
@@ -19,4 +19,4 @@ class Player(Base):
     created_at = Column(DateTime,default=datetime.now())
     updated_at = Column(DateTime,default=datetime.now())
     team_id = Column(Integer,ForeignKey("teams.id"))
-    players_team = relationship("Teams",back_populates="team_players")
+    players_team = relationship("Team",back_populates="team_players")

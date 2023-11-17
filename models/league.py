@@ -11,4 +11,4 @@ class League(Base):
     status = Column(Boolean, default=True)
     created_at = Column(DateTime,default=datetime.now())
     updated_at = Column(DateTime,default=datetime.now())
-    league_teams = relationship("Teams", back_populates="teams_league")
+    league_teams = relationship("Team", back_populates="teams_league")
