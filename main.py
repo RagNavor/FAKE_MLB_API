@@ -1,6 +1,8 @@
-from fastapi import FastAPI
+from typing import Any, Coroutine, Optional
+from fastapi import Depends, FastAPI, HTTPException,Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+from starlette.requests import Request
 from config.database import Session, engine, Base
 from models.player import Player
 from models.team import  Team
@@ -8,15 +10,45 @@ from models.league import League
 from schemas.schemas_player import CreatePlayer, UpdatePlayer 
 from schemas.schemas_league import CreateLeague, UpdateLeague 
 from schemas.schemas_team import CreateTeam, UpdateTeam
+from schemas.schemas_user import CreateUser, UpdateUser, LoginUser
 from datetime import datetime
+from middlewares.jwt_manager import create_token,validate_token
+from fastapi.security import  HTTPBearer
+
+from routers import user
+
 
 
 app = FastAPI()
+
 app.title = "FAKE_MLB_API"
+
+app.include_router(user.router)
 Base.metadata.create_all(bind=engine)
 
+
+class JWTBearer(HTTPBearer):
+    async def __call__(self, request: Request):
+        auth = await super().__call__(request)
+        data = validate_token(auth.credentials)
+        if data['email'] != '1@1':
+            raise HTTPException(status_code=403, detail=' credencial invalida')
+        
+
+#USERS
+
+
+@app.post('/login', tags=['AUTH'])
+def login(user: LoginUser):
+    if user.email == '1@1' and user.password =='123':
+        token:str =create_token(user.model_dump())
+    return JSONResponse(status_code=200, content=token)
+
+#USERS
+
+
 #PLAYERS
-@app.get('/players/get_all_players', tags=['PLAYERS'])
+@app.get('/players/get_all_players', tags=['CRUD_PLAYERS'], dependencies= [Depends(JWTBearer())])
 def get_all_players():
     db = Session()
     result = db.query(Player).all()
@@ -24,7 +56,7 @@ def get_all_players():
         return JSONResponse(status_code=404, content='Players not found')
     return JSONResponse(status_code=200, content=jsonable_encoder(result))
 
-@app.post('/players/create_player', tags=['PLAYERS'])
+@app.post('/players/create_player', tags=['CRUD_PLAYERS'])
 def create_player(player: CreatePlayer):
     db = Session()
     new_player = Player(**player.model_dump())
@@ -33,10 +65,11 @@ def create_player(player: CreatePlayer):
     db.close()
     return JSONResponse(status_code=201, content='Player Created')
     
-@app.put('/players/update_player/{id}',tags=['PLAYERS'])
+@app.put('/players/update_player/{id}',tags=['CRUD_PLAYERS'])
 def update_player(id:int, player:UpdatePlayer):
     db = Session()
     result= db.query(Player).filter(Player.id ==id).first()
+    
     if not result:
         return JSONResponse(status_code=404, content='Player not found')
     result.age = player.age
@@ -55,7 +88,7 @@ def update_player(id:int, player:UpdatePlayer):
     
     return JSONResponse(status_code=202, content=f'Player {result} has ben updeted')
     
-@app.delete('/players/delete_player/{id}',tags=['PLAYERS'])
+@app.delete('/players/delete_player/{id}',tags=['CRUD_PLAYERS'])
 def delete_player(id:int):
     db = Session()
     result = db.query(Player).filter(Player.id == id).first()
