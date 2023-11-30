@@ -7,7 +7,7 @@ class Team(Base):
     __tablename__ = "teams"
     id = Column(Integer, primary_key= True)
     name = Column(VARCHAR(45))
-    logo = Column(VARCHAR(45))
+    logo = Column(VARCHAR(200))
     city = Column(VARCHAR(45))
     status = Column(Boolean, default=True)
     created_at = Column(DateTime, default= datetime.now())

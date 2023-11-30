@@ -22,4 +22,4 @@ class UpdatePlayer(BaseModel):
     wt: int
     birth_place: str
     team_id: int
-    updated_at: None
+    

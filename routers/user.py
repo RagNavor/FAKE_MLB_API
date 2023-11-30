@@ -14,7 +14,6 @@ def get_all_user():
     result = User_Service(db).get_all_users()
     return JSONResponse(status_code=200, content=jsonable_encoder(result))
 
-@router.get( path="/get_user", tags=['USER_GET_OPTIONS'])
 
 @router.post( path='/create_user', tags=['USER'])
 def create_user(user:CreateUser):
@@ -39,7 +38,6 @@ def update_firts_name_user(id:int, user: UpdateFirstName):
         return JSONResponse(status_code=201, content={'message': 'User updated successfuly'})
     return JSONResponse(status_code=404, content={'message': 'user not found'})
     
-
 
 @router.put( path='/update_last_name_user/{id}/', tags=['USER_UPDATE_OPTIONS'])
 def update_last_name_user(id:int, user:UpdateLastName):

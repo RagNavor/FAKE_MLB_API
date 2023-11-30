@@ -14,8 +14,7 @@ from schemas.schemas_user import CreateUser, UpdateUser, LoginUser
 from datetime import datetime
 from middlewares.jwt_manager import create_token,validate_token
 from fastapi.security import  HTTPBearer
-
-from routers import user
+from routers import user, player
 
 
 
@@ -24,6 +23,7 @@ app = FastAPI()
 app.title = "FAKE_MLB_API"
 
 app.include_router(user.router)
+app.include_router(player.router)
 Base.metadata.create_all(bind=engine)
 
 
@@ -48,56 +48,7 @@ def login(user: LoginUser):
 
 
 #PLAYERS
-@app.get('/players/get_all_players', tags=['CRUD_PLAYERS'], dependencies= [Depends(JWTBearer())])
-def get_all_players():
-    db = Session()
-    result = db.query(Player).all()
-    if not result:
-        return JSONResponse(status_code=404, content='Players not found')
-    return JSONResponse(status_code=200, content=jsonable_encoder(result))
 
-@app.post('/players/create_player', tags=['CRUD_PLAYERS'])
-def create_player(player: CreatePlayer):
-    db = Session()
-    new_player = Player(**player.model_dump())
-    db.add(new_player)
-    db.commit()
-    db.close()
-    return JSONResponse(status_code=201, content='Player Created')
-    
-@app.put('/players/update_player/{id}',tags=['CRUD_PLAYERS'])
-def update_player(id:int, player:UpdatePlayer):
-    db = Session()
-    result= db.query(Player).filter(Player.id ==id).first()
-    
-    if not result:
-        return JSONResponse(status_code=404, content='Player not found')
-    result.age = player.age
-    result.bat = player.bat
-    result.birth_place = player.birth_place
-    result.ht = player.ht
-    result.name = player.name
-    result.thw = player.thw
-    result.pos = player.pos
-    result.team_id = player.team_id
-    result.wt = player.wt
-    result.updated_at = datetime.now()
-    db.commit()
-    db.close()
-    
-    
-    return JSONResponse(status_code=202, content=f'Player {result} has ben updeted')
-    
-@app.delete('/players/delete_player/{id}',tags=['CRUD_PLAYERS'])
-def delete_player(id:int):
-    db = Session()
-    result = db.query(Player).filter(Player.id == id).first()
-    if not result:
-       return JSONResponse(status_code=404, content='Player not found')
-    db.delete(result)
-    db.commit()
-    db.close()
-    return JSONResponse(status_code=202, content='Player Deleted')
 #PLAYERS
 
 #TEAMS 
