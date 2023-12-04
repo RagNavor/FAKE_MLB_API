@@ -10,11 +10,10 @@ user = getenv('DB_User_Admin')
 password = getenv('DB_User_Admin_Password')
 
 #mysql_url = f'mariadb+mariadbconnector://{user}:{password}@localhost/mlb_db'
-postgre_url = f'postgresql://{user}:{password}@postgresserver/db'
+postgre_url = f'postgresql://{user}:{password}@dpg-cln2b2kjtl8s73ac12m0-a/mlbdb'
 Base = declarative_base()
 engine = create_engine(postgre_url,echo=True)
 Session = sessionmaker(bind =engine)
-
 
 
 
