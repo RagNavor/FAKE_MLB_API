@@ -9,7 +9,7 @@ load_dotenv()
 user = getenv('DB_User_Admin')
 password = getenv('DB_User_Admin_Password')
 
-mysql_url = f'mariadb+mariadbconnector://{user}:{password}@localhost/mlb_db'
+#mysql_url = f'mariadb+mariadbconnector://{user}:{password}@localhost/mlb_db'
 postgre_url = f'postgresql://{user}:{password}@postgresserver/db'
 Base = declarative_base()
 engine = create_engine(postgre_url,echo=True)
