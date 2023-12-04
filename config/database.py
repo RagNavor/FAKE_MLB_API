@@ -8,9 +8,11 @@ from os import getenv
 load_dotenv()
 user = getenv('DB_User_Admin')
 password = getenv('DB_User_Admin_Password')
-Base = declarative_base()
+
 mysql_url = f'mariadb+mariadbconnector://{user}:{password}@localhost/mlb_db'
-engine = create_engine(mysql_url,echo=True)
+postgre_url = f'postgresql://{user}:{password}@postgresserver/db'
+Base = declarative_base()
+engine = create_engine(postgre_url,echo=True)
 Session = sessionmaker(bind =engine)
 
 
