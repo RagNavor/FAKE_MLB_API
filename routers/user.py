@@ -15,7 +15,7 @@ def get_all_user():
     return JSONResponse(status_code=200, content=jsonable_encoder(result))
 
 
-@router.post( path='/create_user', tags=['USER'],dependencies=[Depends(OnlyAdmin())])
+@router.post( path='/create_user', tags=['USER'])
 def create_user(user:CreateUser):
     db = Session()
     new_user=User_Service(db).create_user(user)
