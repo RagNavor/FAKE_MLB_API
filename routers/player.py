@@ -1,16 +1,18 @@
 from datetime import datetime
 from schemas.schemas_player import CreatePlayer, UpdatePlayer
 from models.player import Player
+from fastapi import Depends
 from fastapi.routing import APIRouter
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from services.player import PlayerService
 from config.database import Session
+from middlewares.permissions import VerifyPermissionCreateUpdate
 
 
 router = APIRouter()
 
-@router.get('/players/get_all_players', tags=['CRUD_PLAYERS'])
+@router.get('/players/get_all_players', tags=['CRUD_PLAYERS'],dependencies=[Depends(VerifyPermissionCreateUpdate())])
 def get_all_players():
     db = Session()
     result = db.query(Player).all()

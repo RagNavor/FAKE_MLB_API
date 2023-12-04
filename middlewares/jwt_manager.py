@@ -19,7 +19,6 @@ def create_token(data:dict):
 
 def validate_token(token: str) -> dict:
     try:
-
         data:dict= decode(token, key=getenv('Key'), algorithms=['HS256'])
         return data
     except exceptions.DecodeError:

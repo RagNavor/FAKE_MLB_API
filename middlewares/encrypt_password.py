@@ -15,8 +15,8 @@ def verify_password(user_password:str, hash:bytes)->bool:
     return False
 
 
-crypt = encrypt_password('Prueba test 1*')
+crypt = encrypt_password('Navor123')
 print(crypt)
 
-print(verify_password('Prueba test 2*',crypt ))
+print(verify_password('Navor123',crypt ))
     

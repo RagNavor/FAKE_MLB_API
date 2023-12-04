@@ -1,5 +1,5 @@
 from config.database import Base
-from sqlalchemy import Column, Integer,Boolean,VARCHAR, BIGINT, DateTime,ForeignKey, true
+from sqlalchemy import Column, Integer,Boolean,VARCHAR, BIGINT, DateTime,ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .team import Team

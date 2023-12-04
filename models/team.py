@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer,VARCHAR,DateTime,ForeignKey,Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .league import League
+
 class Team(Base):
     __tablename__ = "teams"
     id = Column(Integer, primary_key= True)
