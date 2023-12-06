@@ -12,7 +12,7 @@ from middlewares.permissions import VerifyPermissionCreateUpdate
 
 router = APIRouter()
 
-@router.get('/players/get_all_players', tags=['CRUD_PLAYERS'],dependencies=[Depends(VerifyPermissionCreateUpdate())])
+@router.get('/players', tags=['CRUD_PLAYERS'],dependencies=[Depends(VerifyPermissionCreateUpdate())])
 def get_all_players():
     db = Session()
     result = db.query(Player).all()
