@@ -4,7 +4,7 @@ class CreateTeam(BaseModel):
     name: str = Field(max_length=45)
     logo:str = Field(max_length=200)
     city:str  = Field(max_length=45)
-    league_id:int  = Field(le=1)
+    league_id:int  = Field(ge=1)
     model_config = {
         
         "json_schema_extra":{
