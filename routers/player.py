@@ -158,7 +158,7 @@ def get_players_throw_left():
     return JSONResponse(status_code=404, content={'message':'Payers not found'})
     
 
-@router.post('/players/create_player', tags=['CRUD_PLAYERS'])
+@router.post('/players', tags=['CRUD_PLAYERS'])
 def create_player(player: CreatePlayer):
     db = Session()
     new_player = Player(**player.model_dump())
@@ -167,7 +167,7 @@ def create_player(player: CreatePlayer):
     db.close()
     return JSONResponse(status_code=201, content='Player Created')
     
-@router.put('/players/update_player/{id}',tags=['CRUD_PLAYERS'])
+@router.put('/players/{id}',tags=['CRUD_PLAYERS'])
 def update_player(id:int, player:UpdatePlayer):
     db = Session()
     result= db.query(Player).filter(Player.id ==id).first()
@@ -179,7 +179,7 @@ def update_player(id:int, player:UpdatePlayer):
     db.close()
     return JSONResponse(status_code=202, content=f'Player {result} has ben updeted')
     
-@router.delete('/players/delete_player/{id}',tags=['CRUD_PLAYERS'])
+@router.delete('/players/{id}',tags=['CRUD_PLAYERS'])
 def delete_player(id:int):
     db = Session()
     result = db.query(Player).filter(Player.id == id).first()
