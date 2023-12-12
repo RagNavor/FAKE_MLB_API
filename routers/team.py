@@ -36,7 +36,7 @@ def create_team(team: CreateTeam):
     db.add(new_team)
     db.commit()
     db.close()
-    return JSONResponse(status_code=201, content='Team Created')
+    return JSONResponse(status_code=201, content=f'Team {new_team.name} Created')
 
 @router.put('/teams/{id}', tags=['TEAMS'])
 def update_team(id:int, team: UpdateTeam):
@@ -50,7 +50,7 @@ def update_team(id:int, team: UpdateTeam):
     result.logo = team.logo
     db.commit()
     db.close()
-    return JSONResponse(content=f'Team: {result} updated successfully', status_code=202)
+    return JSONResponse(content=f'Team: {result.name} updated successfully', status_code=202)
     
     
 @router.delete('/teams/{id}', tags=['TEAMS'],dependencies=[Depends(OnlyAdmin())])

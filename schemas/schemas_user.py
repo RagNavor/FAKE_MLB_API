@@ -5,7 +5,7 @@ class CreateUser(BaseModel):
     last_name: str = Field(max_length=45)
     email: str = Field(max_length=45)
     password:str = Field(min_length=8)
-    phone_number:int = Field(ge=1,le=20)
+    phone_number:int = Field(ge=1,le=9999999999)
     group_id:int = Field(ge=4,le=6)
     model_config = {
         
