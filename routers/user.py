@@ -27,7 +27,7 @@ def update_user(id,user: UpdateUser):
     db = Session()
     user_updated = User_Service(db).update_user(user,id)
     if user_updated:
-        return JSONResponse(status_code=201, content={'message': 'User updated successfuly'})
+        return JSONResponse(status_code=201, content={'message': f'User {user_updated.name} updated successfuly'})
     return JSONResponse(status_code=404, content={'message': 'user not found'})
 
 @router.put( path='/update_firts_name_user/{id}', tags=['USER_UPDATE_OPTIONS'],dependencies=[Depends(OnlyAdmin())])
@@ -35,7 +35,7 @@ def update_firts_name_user(id:int, user: UpdateFirstName):
     db = Session()
     user_updated = User_Service(db).update_first_name_user(user,id)
     if user_updated:
-        return JSONResponse(status_code=201, content={'message': 'User updated successfuly'})
+        return JSONResponse(status_code=201, content={'message': f'User {user_updated.name} updated successfuly'})
     return JSONResponse(status_code=404, content={'message': 'user not found'})
     
 
@@ -44,7 +44,7 @@ def update_last_name_user(id:int, user:UpdateLastName):
     db = Session()
     user_updated = User_Service(db).update_first_name_user(user,id)
     if user_updated:
-        return JSONResponse(status_code=201, content={'message': 'User updated successfuly'})
+        return JSONResponse(status_code=201, content={'message': f'User {user_updated.name} updated successfuly'})
     return JSONResponse(status_code=404, content={'message': 'user not found'})
 
 
@@ -53,7 +53,7 @@ def update_email_user(id:int, user:UpdateEmail):
     db = Session()
     user_updated = User_Service(db).update_email_user(user,id)
     if user_updated:
-        return JSONResponse(status_code=201, content={'message': 'User updated successfuly'})
+        return JSONResponse(status_code=201, content={'message': f'User {user_updated.name} updated successfuly'})
     return JSONResponse(status_code=404, content={'message': 'user not found'})
 
 
@@ -71,7 +71,7 @@ def update_phone_number_user(id:int, user:UpdatePhoneNumber):
     db = Session()
     user_updated = User_Service(db).update_phone_number_user(user,id)
     if user_updated:
-        return JSONResponse(status_code=201, content={'message': 'User updated successfuly'})
+        return JSONResponse(status_code=201, content={'message': f'User {user_updated.name} updated successfuly'})
     return JSONResponse(status_code=404, content={'message': 'user not found'})
 
 

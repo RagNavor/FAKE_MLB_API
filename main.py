@@ -45,7 +45,7 @@ class JWTBearer(HTTPBearer):
 
 #USERS
 
-
+@app.middleware
 @app.post('/login', tags=['AUTH'])
 def login(login_user:LoginUser):
     db = Session()

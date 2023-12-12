@@ -177,7 +177,7 @@ def update_player(id:int, player:UpdatePlayer):
     result.updated_at = datetime.now()
     db.commit()
     db.close()
-    return JSONResponse(status_code=202, content=f'Player {result} has ben updeted')
+    return JSONResponse(status_code=202, content=f'Player {result.name} has ben updeted')
     
 @router.delete('/players/{id}',tags=['CRUD_PLAYERS'])
 def delete_player(id:int):
