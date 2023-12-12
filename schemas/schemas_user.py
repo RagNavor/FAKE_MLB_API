@@ -6,7 +6,7 @@ class CreateUser(BaseModel):
     email: str = Field(max_length=45)
     password:str = Field(min_length=8)
     phone_number:int = Field(ge=1,le=20)
-    group_id:int = Field(ge=1,le=4)
+    group_id:int = Field(ge=4,le=6)
     model_config = {
         
         "json_schema_extra":{
