@@ -35,7 +35,7 @@ def create_leagues(league: CreateLeague):
     db.add(new_league)
     db.commit()
     db.close()
-    return JSONResponse(status_code=200, content=f'league: {new_league}  created successfully')
+    return JSONResponse(status_code=200, content=f'league: {new_league.name}  created successfully')
 
 @router.put('/leagues/{id}', tags=['LEAGUES'])
 def update_leagues(id:int, league: UpdateLeague):
@@ -44,9 +44,10 @@ def update_leagues(id:int, league: UpdateLeague):
     result.name = league.name
     result.country = league.country
     result.updated_at = datetime.now()
+    league_name = result.name
     db.commit()
     db.close()
-    return JSONResponse(status_code=202, content=f'league: {result}  updated successfully')
+    return JSONResponse(status_code=202, content=f'league: {league_name}  updated successfully')
 
 @router.delete('/leagues/{id}', tags=['LEAGUES'])
 def delete_leagues(id:int):
@@ -54,7 +55,8 @@ def delete_leagues(id:int):
     result = db.query(League).filter(League.id == id).first()
     if not result:
        return JSONResponse(status_code=404, content='League not found')
+    league_name = result.name
     db.delete(result)
     db.commit()
     db.close()
-    return JSONResponse(status_code=202, content='League Deleted')
+    return JSONResponse(status_code=202, content=f'League {league_name} Deleted')

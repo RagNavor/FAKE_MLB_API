@@ -33,10 +33,11 @@ def get_single_teams(id:int):
 def create_team(team: CreateTeam):
     db = Session()
     new_team = Team(**team.model_dump())
+    team_name = new_team.name
     db.add(new_team)
     db.commit()
     db.close()
-    return JSONResponse(status_code=201, content=f'Team {new_team.name} Created')
+    return JSONResponse(status_code=201, content=f'Team {team_name} Created')
 
 @router.put('/teams/{id}', tags=['TEAMS'])
 def update_team(id:int, team: UpdateTeam):
@@ -48,9 +49,10 @@ def update_team(id:int, team: UpdateTeam):
     result.name = team.name
     result.city = team.city
     result.logo = team.logo
+    team_name = result.name
     db.commit()
     db.close()
-    return JSONResponse(content=f'Team: {result.name} updated successfully', status_code=202)
+    return JSONResponse(content=f'Team: {team_name} updated successfully', status_code=202)
     
     
 @router.delete('/teams/{id}', tags=['TEAMS'],dependencies=[Depends(OnlyAdmin())])
@@ -59,7 +61,8 @@ def delete_team(id:int):
     result = db.query(Team).filter(Team.id == id).first()
     if not result:
         return JSONResponse(status_code=404, content='Team not found')
+    team_name = result.name
     db.delete(result)
     db.commit()
     db.close()
-    return JSONResponse(content='team deleted', status_code=202)
+    return JSONResponse(content=f'team {team_name} deleted', status_code=202)
