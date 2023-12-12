@@ -13,7 +13,7 @@ from middlewares.permissions import VerifyPermissionCreateUpdate, OnlyAdmin
 router = APIRouter()
 
 
-@router.get('/teams/get_all_teams', tags=['TEAMS'])
+@router.get('/teams', tags=['TEAMS'])
 def get_all_teams():
     db = Session()
     result = db.query(Team).all()
@@ -21,8 +21,15 @@ def get_all_teams():
         return JSONResponse(status_code=404, content='Teams not found')
     return JSONResponse(status_code=200, content=jsonable_encoder(result))
 
+@router.get('/teams/{id}', tags=['TEAMS'])
+def get_single_teams(id:int):
+    db = Session()
+    result = db.query(Team).filter(Team.id == id).first()
+    if not result:
+        return JSONResponse(status_code=404, content='Teams not found')
+    return JSONResponse(status_code=200, content=jsonable_encoder(result))
 
-@router.post('/teams/create_team', tags=['TEAMS'],dependencies=[Depends(VerifyPermissionCreateUpdate())])
+@router.post('/teams', tags=['TEAMS'],dependencies=[Depends(VerifyPermissionCreateUpdate())])
 def create_team(team: CreateTeam):
     db = Session()
     new_team = Team(**team.model_dump())
@@ -31,7 +38,7 @@ def create_team(team: CreateTeam):
     db.close()
     return JSONResponse(status_code=201, content='Team Created')
 
-@router.put('/teams/update_team/{id}', tags=['TEAMS'])
+@router.put('/teams/{id}', tags=['TEAMS'])
 def update_team(id:int, team: UpdateTeam):
     db = Session()
     result = db.query(Team).filter(Team.id == id).first()
@@ -46,7 +53,7 @@ def update_team(id:int, team: UpdateTeam):
     return JSONResponse(content=f'Team: {result} updated successfully', status_code=202)
     
     
-@router.delete('/teams/delete_team/{id}', tags=['TEAMS'],dependencies=[Depends(OnlyAdmin())])
+@router.delete('/teams/{id}', tags=['TEAMS'],dependencies=[Depends(OnlyAdmin())])
 def delete_team(id:int):
     db = Session()
     result = db.query(Team).filter(Team.id == id).first()
